@@ -5,10 +5,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 public class CakeView extends SurfaceView {
     private CakeModel privateCakeModelReference;
+
+    // adds the y and x coordinates when place finger
+    private Float touchX = null;
+    private Float touchY = null;
+
+    private Paint markerPaint;
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();
@@ -64,6 +71,12 @@ public class CakeView extends SurfaceView {
 
         setBackgroundColor(Color.WHITE);  //better than black default
 
+        // places the markerPaint onto the cake model
+        markerPaint = new Paint();
+        markerPaint.setColor(Color.RED);
+        markerPaint.setStrokeWidth(8f);
+        markerPaint.setStyle(Paint.Style.STROKE);
+
     }
 
     /**
@@ -90,6 +103,20 @@ public class CakeView extends SurfaceView {
             float wickTop = bottom - wickHeight - candleHeight;
             canvas.drawRect(wickLeft, wickTop, wickLeft + wickWidth, wickTop + wickHeight, wickPaint);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        if(event.getAction() == MotionEvent.ACTION_DOWN ||
+        event.getAction() == MotionEvent.ACTION_MOVE)
+        {
+            touchX = event.getX();
+            touchY = event.getY();
+            invalidate();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -129,6 +156,16 @@ public class CakeView extends SurfaceView {
         for (int i = 1; i <= candleCount; i++) {
             drawCandle(canvas, cakeLeft + i*cakeWidth/(candleCount+1) - candleWidth/2, cakeTop);
         }
+
+        if(touchX != null && touchY != null)
+        {
+            float size = 30f;
+            // adds top-edge marker
+            canvas.drawLine(touchX - size, 0, touchX + size, 0, markerPaint);
+            // adds left-edge marker
+            canvas.drawLine(0, touchY - size, 0, touchY + size, markerPaint);
+        }
+
     }//onDraw
 
     public CakeModel grantReferenceAccess() {
