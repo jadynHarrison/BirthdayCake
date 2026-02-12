@@ -144,19 +144,19 @@ public class CakeView extends SurfaceView {
             drawCandle(canvas, cakeLeft + i*cakeWidth/(candleCount+1) - candleWidth/2, cakeTop);
         }
 
+        float x = privateCakeModelReference.touchX;
+        float y = privateCakeModelReference.touchY;
         if(privateCakeModelReference.hasTouch)
         {
             float size = 30f;
 
-            float x = privateCakeModelReference.touchX;
-            float y = privateCakeModelReference.touchY;
             // adds top-edge marker
             canvas.drawLine(x - size, 0, x + size, 0, markerPaint);
             // adds left-edge marker
             canvas.drawLine(0, y - size, 0, y + size, markerPaint);
         }
 
-        canvas.drawText("x = " + String.format("%.2f", privateCakeModelReference.touchX) + ", y = " + String.format("%.2f", privateCakeModelReference.touchY), cakeLeft, cakeWidth - 200, positionPaint);
+        canvas.drawText("x = " + String.format("%.2f", x) + ", y = " + String.format("%.2f", y), cakeLeft, cakeWidth - 200, positionPaint);
 
     }//onDraw
 
