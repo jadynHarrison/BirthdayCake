@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -21,9 +20,6 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
-    Paint balloonPaint = new Paint();
-    Paint stringPaint = new Paint();
-
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -44,7 +40,6 @@ public class CakeView extends SurfaceView {
 
 
 
-
     /**
      * ctor must be overridden here as per standard Java inheritance practice.  We need it
      * anyway to initialize the member variables
@@ -57,7 +52,7 @@ public class CakeView extends SurfaceView {
         setWillNotDraw(false);
 
         //Setup our palette
-        cakePaint.setColor(Color.BLUE);
+        cakePaint.setColor(Color.BLUE);  //violet-red
         cakePaint.setStyle(Paint.Style.FILL);
         frostingPaint.setColor(0xFFFFFACD);  //pale yellow
         frostingPaint.setStyle(Paint.Style.FILL);
@@ -69,8 +64,6 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
-        balloonPaint.setColor(Color.BLUE);
-        stringPaint.setColor(Color.BLACK);
 
         setBackgroundColor(Color.WHITE);  //better than black default
 
@@ -140,20 +133,6 @@ public class CakeView extends SurfaceView {
 
         //Then a second cake layer
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
-
-        //Adding the balloon in the cake
-        if (privateCakeModelReference.hasBalloon) {
-            float x = privateCakeModelReference.balloonX;
-            float y = privateCakeModelReference.balloonY;
-
-            RectF balloon = new RectF(
-                    x - 60, y - 80,
-                    x + 60, y + 80
-            );
-            canvas.drawOval(balloon, balloonPaint);
-
-            canvas.drawLine(x, y + 40, x, y + 160, stringPaint);
-        }
 
         //Now a candle in the center
         int candleCount = privateCakeModelReference.numCandles;

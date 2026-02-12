@@ -12,13 +12,6 @@ public class CakeModel {
     public int numCandles;
     public boolean hasFrosting;
     public boolean hasCandles;
-
-    // Person B : Variables for Balloon
-    public float balloonX;
-    public float balloonY;
-    public boolean hasBalloon = false;
-
-
     public CakeModel() {
         candlesLit = true;
         numCandles = 2;
