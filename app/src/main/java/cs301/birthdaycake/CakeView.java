@@ -148,7 +148,7 @@ public class CakeView extends SurfaceView {
         float y = privateCakeModelReference.touchY;
 
         //Adding the balloon in the cake
-        if (privateCakeModelReference.hasBalloon) {
+        if (privateCakeModelReference.hasTouch) {
             RectF balloon = new RectF(
                     x - 60, y - 80,
                     x + 60, y + 80

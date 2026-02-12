@@ -8,6 +8,8 @@ public class CakeModel {
 
     public boolean hasTouch = false;
 
+    public boolean hasBalloon = false;
+
     public boolean candlesLit;
     public int numCandles;
     public boolean hasFrosting;
