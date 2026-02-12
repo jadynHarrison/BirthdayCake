@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -20,6 +21,10 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    Paint positionPaint = new Paint();
+    Paint balloonPaint = new Paint();
+    Paint stringPaint = new Paint();
+
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -64,6 +69,11 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        balloonPaint.setColor(Color.BLUE);
+        stringPaint.setColor(Color.BLACK);
+        positionPaint.setColor(Color.RED);  //violet-red
+        positionPaint.setStyle(Paint.Style.FILL);
+        positionPaint.setTextSize(80);
 
         setBackgroundColor(Color.WHITE);  //better than black default
 
@@ -134,6 +144,20 @@ public class CakeView extends SurfaceView {
         //Then a second cake layer
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
 
+        float x = privateCakeModelReference.touchX;
+        float y = privateCakeModelReference.touchY;
+
+        //Adding the balloon in the cake
+        if (privateCakeModelReference.hasBalloon) {
+            RectF balloon = new RectF(
+                    x - 60, y - 80,
+                    x + 60, y + 80
+            );
+            canvas.drawOval(balloon, balloonPaint);
+
+            canvas.drawLine(x, y + 40, x, y + 160, stringPaint);
+        }
+
         //Now a candle in the center
         int candleCount = privateCakeModelReference.numCandles;
         for (int i = 1; i <= candleCount; i++) {
@@ -144,13 +168,13 @@ public class CakeView extends SurfaceView {
         {
             float size = 30f;
 
-            float x = privateCakeModelReference.touchX;
-            float y = privateCakeModelReference.touchY;
             // adds top-edge marker
             canvas.drawLine(x - size, 0, x + size, 0, markerPaint);
             // adds left-edge marker
             canvas.drawLine(0, y - size, 0, y + size, markerPaint);
         }
+
+        canvas.drawText("x = " + String.format("%.2f", x) + ", y = " + String.format("%.2f", y), cakeLeft, cakeWidth - 200, positionPaint);
 
     }//onDraw
 
