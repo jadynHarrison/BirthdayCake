@@ -11,10 +11,6 @@ import android.view.SurfaceView;
 public class CakeView extends SurfaceView {
     private CakeModel privateCakeModelReference;
 
-    // adds the y and x coordinates when place finger
-    private Float touchX = null;
-    private Float touchY = null;
-
     private Paint markerPaint;
 
     /* These are the paints we'll use to draw the birthday cake below */
@@ -105,19 +101,6 @@ public class CakeView extends SurfaceView {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        if(event.getAction() == MotionEvent.ACTION_DOWN ||
-        event.getAction() == MotionEvent.ACTION_MOVE)
-        {
-            touchX = event.getX();
-            touchY = event.getY();
-            invalidate();
-            return true;
-        }
-        return false;
-    }
 
     /**
      * onDraw is like "paint" in a regular Java program.  While a Canvas is
@@ -157,13 +140,16 @@ public class CakeView extends SurfaceView {
             drawCandle(canvas, cakeLeft + i*cakeWidth/(candleCount+1) - candleWidth/2, cakeTop);
         }
 
-        if(touchX != null && touchY != null)
+        if(privateCakeModelReference.hasTouch)
         {
             float size = 30f;
+
+            float x = privateCakeModelReference.touchX;
+            float y = privateCakeModelReference.touchY;
             // adds top-edge marker
-            canvas.drawLine(touchX - size, 0, touchX + size, 0, markerPaint);
+            canvas.drawLine(x - size, 0, x + size, 0, markerPaint);
             // adds left-edge marker
-            canvas.drawLine(0, touchY - size, 0, touchY + size, markerPaint);
+            canvas.drawLine(0, y - size, 0, y + size, markerPaint);
         }
 
     }//onDraw
