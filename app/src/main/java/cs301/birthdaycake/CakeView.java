@@ -20,6 +20,7 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    Paint positionPaint = new Paint();
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -64,6 +65,9 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        positionPaint.setColor(Color.RED);  //violet-red
+        positionPaint.setStyle(Paint.Style.FILL);
+        positionPaint.setTextSize(80);
 
         setBackgroundColor(Color.WHITE);  //better than black default
 
@@ -151,6 +155,8 @@ public class CakeView extends SurfaceView {
             // adds left-edge marker
             canvas.drawLine(0, y - size, 0, y + size, markerPaint);
         }
+
+        canvas.drawText("x = " + String.format("%.2f", privateCakeModelReference.touchX) + ", y = " + String.format("%.2f", privateCakeModelReference.touchY), cakeLeft, cakeWidth - 200, positionPaint);
 
     }//onDraw
 
